@@ -1,0 +1,20 @@
+{
+  "name": "@human-writes/vue-plugin",
+  "packageManager": "yarn@3.6.0",
+  "description": "Writes HTML and code snippet like a human",
+  "version": "0.5.61",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "npx eslint --ext .mjs,.cjs,.js ./src",
+    "test": "echo \"Nothing to test for now\" && exit 0"
+  },
+  "keywords": [
+    "HTML",
+    "code-snippet",
+    "human",
+    "writing"
+  ],
+  "author": "David Blanchard",
+  "license": "GPL-3.0"
+}
