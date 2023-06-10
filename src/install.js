@@ -1,23 +1,23 @@
-import TextWriter from "./components/text-writer.vue"
+import TextWriter from "./components/text-writer.vue";
 
 function install(Vue) {
-	if (install.installed) return;
-	install.installed = true;
-	Vue.component("text-writer", TextWriter);
+  if (install.installed) return;
+  install.installed = true;
+  Vue.component("text-writer", TextWriter);
 }
 
 const plugin = {
-	install,
+  install
 };
 
 let GlobalVue = null;
 if (typeof window !== "undefined") {
-	GlobalVue = window.Vue;
+  GlobalVue = window.Vue;
 } else if (typeof global !== "undefined") {
-	GlobalVue = global.vue;
+  GlobalVue = global.vue;
 }
 if (GlobalVue) {
-	GlobalVue.use(plugin);
+  GlobalVue.use(plugin);
 }
 
 TextWriter.install = install;
