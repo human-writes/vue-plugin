@@ -1,4 +1,4 @@
-export interface TextWriterOptions {
+export interface VueWriterOptions {
     speed: number;
-    makeTypes: boolean;
+    makeTypos: boolean;
 }

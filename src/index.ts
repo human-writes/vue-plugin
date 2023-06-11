@@ -1,6 +1,6 @@
-import Headline from "./components/Headline.vue";
-import { ColoredTextOptions } from "./types/ColoredTextOptions";
-import { ColoredText } from "./types/ColoredText";
-import { ColoredTextPlugin } from "./ColoredTextPlugin";
+import TextWriter from "./components/TextWriter.vue";
+import { VueWriterOptions } from "./types/VueWriterOptions";
+import { VueWriter } from "./types/VueWriter";
+import { VueWriterPlugin } from "./VueWriterPlugin";
 
-export { Headline, ColoredText, ColoredTextOptions, ColoredTextPlugin };
+export { TextWriter, VueWriterOptions, VueWriter, VueWriterPlugin };
