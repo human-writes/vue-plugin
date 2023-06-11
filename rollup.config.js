@@ -1,22 +1,29 @@
+import typescript from "rollup-plugin-typescript2";
 import vue from "rollup-plugin-vue";
-import peerDepsExternal from "rollup-plugin-peer-deps-external";
+import clear from "rollup-plugin-clear";
 
-export default [
-  {
-    input: "./src/install.js",
-    moduleContext: true,
-    output: [
-      {
-        format: "esm",
-        file: "dist/library.js"
-      },
-      {
-        format: "cjs",
-        file: "dist/library.cjs"
-      }
-    ],
+export default async function config(args) {
+  return {
+    input: "src/index.ts",
+    output: {
+      dir: "dist",
+      format: "es",
+      sourcemap: true
+    },
     plugins: [
-      vue(), peerDepsExternal()
+      vue(),
+      typescript({
+        tsconfigOverride: {
+          compilerOptions: {
+            declaration: true
+          },
+          include: null
+        }
+      }),
+      clear({
+        targets: ["./dist"]
+      })
     ]
-  }
-];
+  };
+
+}
