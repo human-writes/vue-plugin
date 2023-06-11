@@ -1,7 +1,7 @@
 import { App, Plugin } from "vue";
 import Headline from "./components/Headline.vue";
 import { ColoredText } from "./types/ColoredText";
-import { ColoredTextOptions } from "./types/ColoredTextOptions";
+import { ColoredTextOptions } from "./types/TextWriterOptions";
 
 // Used to create a new ColoredText. "options" will be whatever you add later to "app.use(ColoredTextPlugin, options);"
 const createColoredText = (options: ColoredTextOptions): ColoredText => {
