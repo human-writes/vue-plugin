@@ -1,7 +1,7 @@
 import { App, Plugin } from "vue";
 import TextWriter from "./components/TextWriter.vue";
-import { VueWriter } from "./types/VueWriter";
-import { VueWriterOptions } from "./types/VueWriterOptions";
+import { VueWriter } from "./types";
+import { VueWriterOptions } from "./types";
 
 // Used to create a new ColoredText. "options" will be whatever you add later to "app.use(VueWriterPlugin, options);"
 const createVueWriter = (options: VueWriterOptions): VueWriter => {

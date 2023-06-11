@@ -22,7 +22,7 @@ const props = defineProps({
     dependsOnSelector: {
         default: ""
     },
-    makeMistakes: {
+    makeTypos: {
         default: false
     },
     styles: {
@@ -40,7 +40,7 @@ const props = defineProps({
 });
 
 
-onMounted(() => {
+onMounted(async () => {
 
     const $doc = root.value.ownerDocument;
 
@@ -74,7 +74,7 @@ onMounted(() => {
 
             // Callback function to execute when mutations are observed
             // Create an observer instance linked to the callback function
-            const observer = new MutationObserver((mutationList, observer) => {
+            const observer = new MutationObserver(async (mutationList, observer) => {
                 for (const mutation of mutationList) {
                     if (
                         mutation.type === "attributes" &&
@@ -82,7 +82,7 @@ onMounted(() => {
                     ) {
                         if (component.finished) {
                             observer.disconnect();
-                            writeLikeAHuman();
+                            await writeLikeAHuman();
                         }
                     }
                 }
@@ -92,14 +92,15 @@ onMounted(() => {
             observer.observe(component, config);
         }
     } else {
-        writeLikeAHuman();
+        await writeLikeAHuman();
     }
 });
 
-const writeLikeAHuman = () => {
-    console.log({ "tellMe": "I've started!" });
-    const tw = new Writer();
-    tw.writeLikeAHuman("to-write");
+const writeLikeAHuman = async () => {
+    const doc = root.value.ownerDocument;
+
+    const tw = new Writer(doc, props.source, props.speed, props.makeTypos);
+    await tw.writeLikeAHuman("to-write");
 };
 </script>
 
