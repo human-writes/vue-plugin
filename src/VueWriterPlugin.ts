@@ -1,5 +1,6 @@
 import { App, Plugin } from "vue";
 import TextWriter from "./components/TextWriter.vue";
+import CodeWriter from "./components/CodeWriter.vue";
 import { VueWriter } from "./types";
 import { VueWriterOptions } from "./types";
 
@@ -18,5 +19,6 @@ export const VueWriterPlugin: Plugin = {
         app.config.globalProperties.$writerOptions = createVueWriter(options);
         // register Headline as a global component, so you can use it wherever you want in your app
         app.component("TextWriter", TextWriter);
+        app.component("CodeWriter", CodeWriter);
     }
 };
