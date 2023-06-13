@@ -44,10 +44,10 @@ const props = defineProps({
         default: false
     },
     theme: {
-        default: ""
+        default: "base16/monokai"
     },
     language: {
-        default: ""
+        default: "html"
     }
 });
 
@@ -89,23 +89,19 @@ onMounted(async () => {
         const $styleList = props.styles.split(",");
 
         $styleList.forEach(($item) => {
-            const style = $doc.createElement("style");
+            const style = doc.createElement("style");
             style.innerHTML = `@import "${$item}"`;
 
-            $doc.head.appendChild(style);
+            doc.head.appendChild(style);
         });
 
-        const parentDiv = $doc.getElementById("to-write");
+        const parentDiv = doc.getElementById("to-write");
         parentDiv.setAttribute("class", props.classes);
     }
 
     if (props.dependsOnSelector !== "") {
-        const component = $doc.querySelector(props.dependsOnSelector);
-        if (
-            component !== undefined &&
-            (component.tagName === "TEXT-WRITER" ||
-                component.tagName === "CODE-WRITER")
-        ) {
+        const component = doc.querySelector(props.dependsOnSelector);
+        if (component !== null) {
             // Options for the observer (which mutations to observe)
             const config = { attributes: true };
 
@@ -118,7 +114,9 @@ onMounted(async () => {
                             mutation.type === "attributes" &&
                             mutation.attributeName === "finished"
                         ) {
-                            if (component.finished) {
+                            const attr = component.getAttribute("finished");
+
+                            if (attr === "true") {
                                 observer.disconnect();
                                 await writeLikeAHuman();
                             }
@@ -135,14 +133,27 @@ onMounted(async () => {
     }
 });
 
+const onFinishedWriting = function (html) {
+    // Raise an event outside the shadow DOM
+    // when all is done and ready
+    const finishedEvent = new CustomEvent("finishedWriting", {
+        bubbles: true,
+        cancellable: true,
+        detail: {
+            content: html
+        }
+    });
+    root.value.dispatchEvent(finishedEvent);
+    root.value.setAttribute("finished", "true");
+};
+
 const writeLikeAHuman = async () => {
     const doc = root.value.ownerDocument;
 
-    const tw = new Writer(doc, props.source, props.speed, props.makeTypos);
+    const tw = new Writer(doc, props.source, props.speed, props.makeTypos, onFinishedWriting);
     await tw.writeLikeAHuman("to-write", "to-copy");
 };
 </script>
-
 <script>
 import { defineComponent } from "vue";
 

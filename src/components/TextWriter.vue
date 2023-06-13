@@ -39,9 +39,7 @@ const props = defineProps({
     }
 });
 
-
 onMounted(async () => {
-
     const $doc = root.value.ownerDocument;
 
     /**
@@ -63,29 +61,28 @@ onMounted(async () => {
 
     if (props.dependsOnSelector !== "") {
         const component = $doc.querySelector(props.dependsOnSelector);
-        if (
-            component !== undefined &&
-            (component.tagName === "TEXT-WRITER" ||
-                component.tagName === "CODE-WRITER")
-        ) {
+        if (component !== null) {
             // Options for the observer (which mutations to observe)
             const config = { attributes: true };
 
             // Callback function to execute when mutations are observed
             // Create an observer instance linked to the callback function
-            const observer = new MutationObserver(async (mutationList, observer) => {
-                for (const mutation of mutationList) {
-                    if (
-                        mutation.type === "attributes" &&
-                        mutation.attributeName === "finished"
-                    ) {
-                        if (component.finished) {
-                            observer.disconnect();
-                            await writeLikeAHuman();
+            const observer = new MutationObserver(
+                async (mutationList, observer) => {
+                    for (const mutation of mutationList) {
+                        if (
+                            mutation.type === "attributes" &&
+                            mutation.attributeName === "finished"
+                        ) {
+                            const attr = component.getAttribute("finished");
+                            if (attr === "true") {
+                                observer.disconnect();
+                                await writeLikeAHuman();
+                            }
                         }
                     }
                 }
-            });
+            );
 
             // Start observing the target node for configured mutations
             observer.observe(component, config);
@@ -95,10 +92,30 @@ onMounted(async () => {
     }
 });
 
+const onFinishedWriting = function (html) {
+    // Raise an event outside the shadow DOM
+    // when all is done and ready
+    const finishedEvent = new CustomEvent("finishedWriting", {
+        bubbles: true,
+        cancellable: true,
+        detail: {
+            content: html
+        }
+    });
+    root.value.dispatchEvent(finishedEvent);
+    root.value.setAttribute("finished", "true");
+};
+
 const writeLikeAHuman = async () => {
     const doc = root.value.ownerDocument;
 
-    const tw = new Writer(doc, props.source, props.speed, props.makeTypos);
+    const tw = new Writer(
+        doc,
+        props.source,
+        props.speed,
+        props.makeTypos,
+        onFinishedWriting
+    );
     await tw.writeLikeAHuman("to-write");
 };
 </script>
