@@ -30,7 +30,7 @@
     "strict": true,
     /* Skip type checking all .d.ts files. */
     "skipLibCheck": true,
-    "allowJs": false
+    "allowJs": true
   },
   "include": [
     "src/**/*.ts",
