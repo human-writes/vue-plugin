@@ -1,1 +1,1 @@
-export { TextWriter, CodeWriter } from "./dist/index.js";
+export { TextWriter, CodeWriter, VueWriterPlugin } from "./dist/index.js";

@@ -150,12 +150,19 @@ const onFinishedWriting = function (html) {
 const writeLikeAHuman = async () => {
     const doc = root.value.ownerDocument;
 
-    const tw = new Writer(doc, props.source, props.speed, props.makeTypos, onFinishedWriting);
+    const tw = new Writer(
+        doc,
+        props.source,
+        props.speed,
+        props.makeTypos,
+        onFinishedWriting
+    );
     await tw.writeLikeAHuman("to-write", "to-copy");
 };
 </script>
 <script>
 import { defineComponent } from "vue";
+import "../style.css";
 
 export default defineComponent({
     name: "CodeWriter"
