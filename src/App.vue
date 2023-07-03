@@ -1,14 +1,13 @@
 <script lang="ts" setup>
-import CodeWriter from "./components/CodeWriter.vue";
 import "./style.css";
 </script>
 
 <template>
-    <CodeWriter
+    <code-writer
         language="php"
-        source="/snippets/Hello.phtml"
+        source="/snippets/hello.phtml"
         speed="80"
-        use-highlight-js="true"
+        :use-highlight-js="true"
     />
 </template>
 

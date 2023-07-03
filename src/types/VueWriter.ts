@@ -1,4 +1,4 @@
-export interface VueWriter {
+export default interface VueWriter {
     textSpeed: number;
     textTypos: boolean;
 }

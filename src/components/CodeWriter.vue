@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, inject } from "vue";
 import { Writer } from "@human-writes/core";
 
 const root = ref(null);
@@ -20,7 +20,7 @@ const props = defineProps({
         default: ""
     },
     speed: {
-        default: "60"
+        default: 20
     },
     dependsOnSelector: {
         default: ""
@@ -150,11 +150,18 @@ const onFinishedWriting = function (html) {
 const writeLikeAHuman = async () => {
     const doc = root.value.ownerDocument;
 
+    const writerOptions = inject("writerOptions");
+
+    console.log({ writerOptions });
+
+    const speed = props.speed;
+    const makeTypos = props.makeTypos;
+
     const tw = new Writer(
         doc,
         props.source,
-        props.speed,
-        props.makeTypos,
+        speed,
+        makeTypos,
         onFinishedWriting
     );
     await tw.writeLikeAHuman("to-write", "to-copy");
@@ -183,3 +190,46 @@ export default defineComponent({
 //             "finished"
 //         ];
 //     } -->
+<style scoped>
+:root {
+    --snippet-width: 50vw;
+}
+
+#to-copy {
+    display: block;
+    position: relative;
+    float: left;
+    width: var(--snippet-width);
+}
+
+#to-write {
+    width: var(--snippet-width);
+}
+
+.to-be-copied {
+    display: block;
+    position: relative;
+    float: left;
+}
+
+.to-be-written {
+    display: flex;
+    position: absolute;
+    width: var(--snippet-width);
+}
+
+.code-snippet {
+    display: flex;
+    font-size: medium;
+}
+
+div,
+p,
+span,
+textarea {
+    -tab-size: 4;
+    -o-tab-size: 4;
+    -moz-tab-size: 4;
+}
+
+</style>

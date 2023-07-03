@@ -1,7 +1,7 @@
 declare const _default: import("vue").DefineComponent<{}, {
     $props: {
         readonly source?: string | undefined;
-        readonly speed?: string | undefined;
+        readonly speed?: number | undefined;
         readonly dependsOnSelector?: string | undefined;
         readonly makeTypos?: boolean | undefined;
         readonly styles?: string | undefined;
